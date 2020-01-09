@@ -1,6 +1,7 @@
 import csv
 
 from bricklane_platform.models.card_payment import CardPayment
+from bricklane_platform.models.bank_payment import BankPayment
 
 
 class PaymentProcessor(object):
@@ -10,7 +11,10 @@ class PaymentProcessor(object):
         with open(csv_path) as f:
             reader = csv.DictReader(f)
             for row in reader:
-                payments.append(CardPayment(row))
+                if source == 'card':
+                    payments.append(CardPayment(row))
+                if source == 'bank':
+                    payments.append(BankPayment(row))
 
         return payments
 
